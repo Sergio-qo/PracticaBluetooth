@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //Intent para encendder bluetooh
                     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(intent, REQUEST_DISCOVER_BT);
+                    startActivityForResult(intent, REQUEST_ENABLE_BT);
                 }
                 else{
                     showToast("El bluetooth ya está activado");
@@ -93,6 +93,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        switch (requestCode){
+            case REQUEST_ENABLE_BT:
+                if(resultCode == RESULT_OK){
+                    //El bluetooth está activado
+                    mBlueIv.setImageResource(R.drawable.ic_action);
+                    showToast("El bluetooth está activado");
+                }
+                else{
+                    //El ususario no ha dado el permiso
+                    showToast("No se pudo activar el bluetooth");
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     //Funcion para mensaje flotante ahorrando codigo
