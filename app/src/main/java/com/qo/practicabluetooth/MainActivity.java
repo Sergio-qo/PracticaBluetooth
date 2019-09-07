@@ -3,6 +3,7 @@ package com.qo.practicabluetooth;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,7 +89,14 @@ public class MainActivity extends AppCompatActivity {
             mOffBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+                if(mBluetoothAdapter.isEnabled()){
+                    mBluetoothAdapter.disable();
+                    showToast("Apagando el  bluetooth");
+                    mBlueIv.setImageResource(R.drawable.ic_action_off);
+                }
+                else{
+                    showToast("El bluetooth ya está apagado");
+                }
             }
         });
 
@@ -94,7 +104,16 @@ public class MainActivity extends AppCompatActivity {
         mPairedBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+                if(mBluetoothAdapter.isEnabled()){
+                      mPairedTv.setText("Paired Devices");
+                    Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
+                    for(BluetoothDevice device: devices){
+                        mPairedTv.append("\nDevice" + device.getName() + "," + device);
+                    }
+                }
+                else{
+                    showToast("Enciende el bluetooth");
+                }
             }
         });
     }
@@ -118,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Funcion para mensaje flotante ahorrando codigo
     private void showToast(String msg){
+
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
