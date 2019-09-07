@@ -70,11 +70,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Boton para hacer el dispositivos visible
+        //Boton para hacer el dispositivos visibles
         mDiscoverBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+                if(!mBluetoothAdapter.isDiscovering()){
+                    showToast("Haciendo dispositivo visible");
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                    startActivityForResult(intent, REQUEST_DISCOVER_BT);
+                }
             }
         });
 
